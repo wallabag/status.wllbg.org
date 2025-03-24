@@ -144,11 +144,11 @@ params:
   # For help, see the wiki:
   # https://github.com/cstate/cstate/wiki/Customization
   categories:
-    - name: Wallabag.org
-      description: Wallabag community
+    - name: wallabag.org
+      description: wallabag community
       closed: true
-    - name: Wallabag.it
-      description: Wallabag.it service
+    - name: wallabag.it
+      description: wallabag.it service
       closed: true
 
   # These are your systems. Change them to
@@ -159,20 +159,20 @@ params:
   # For help, see the wiki:
   # https://github.com/cstate/cstate/wiki/Customization
   systems:
-    - name: Wallabag.it homepage
+    - name: wallabag.it homepage
       displayName: Homepage
       description: Presentation of wallabag.it service
       link: https://www.wallabag.it
-      category: Wallabag.it
-    - name: Wallabag.it service
+      category: wallabag.it
+    - name: wallabag.it service
       displayName: Service
       link: https://app.wallabag.it
-      category: Wallabag.it
-    - name: Wallabag software homepage
+      category: wallabag.it
+    - name: wallabag software homepage
       displayName: Homepage
-      description: Presentation of Wallabag software
+      description: Presentation of wallabag software
       link: https://wallabag.org
-      category: Wallabag.org
+      category: wallabag.org
 
   # What date format to use?
   #
