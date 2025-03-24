@@ -159,19 +159,19 @@ params:
   # For help, see the wiki:
   # https://github.com/cstate/cstate/wiki/Customization
   systems:
-    - name: service-homepage
+    - name: Wallabag.it homepage
       displayName: Homepage
       description: Presentation of wallabag.it service
       link: https://www.wallabag.it
       category: Wallabag.it
-    - name: Application
-      description: Wallabag service
+    - name: Wallabag.it service
+      displayName: Service
       link: https://app.wallabag.it
       category: Wallabag.it
-    - name: software-homepage
-      displayName: Software homepage
+    - name: Wallabag software homepage
+      displayName: Homepage
       description: Presentation of Wallabag software
-      link: https://wallabag.org/
+      link: https://wallabag.org
       category: Wallabag.org
 
   # What date format to use?
