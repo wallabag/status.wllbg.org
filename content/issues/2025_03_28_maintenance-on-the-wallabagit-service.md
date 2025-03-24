@@ -7,7 +7,7 @@ informational: true
 #resolvedWhen: 2025-03-26 14:00:00
 severity: down
 affected:
-  - Wallabag.it service
+  - wallabag.it service
 section: issue
 ---
 
