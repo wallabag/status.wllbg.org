@@ -16,3 +16,6 @@ section: issue
 During this time, the service on <https://app.wallabag.it> will be unavailable.
 
 We apologize for any inconvenience.
+
+*Update* {{< track "2025-03-28 11:30:00" >}} — The import of the database is way slower than expected.
+The estimated end of maintenance is now 2025-03-28 13:30 (UTC)
