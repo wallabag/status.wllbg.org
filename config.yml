@@ -160,7 +160,7 @@ params:
   # https://github.com/cstate/cstate/wiki/Customization
   systems:
     - name: wallabag.it homepage
-      displayName: Homepage
+      displayName: Website
       description: Presentation of wallabag.it service
       link: https://www.wallabag.it
       category: wallabag.it
@@ -169,7 +169,7 @@ params:
       link: https://app.wallabag.it
       category: wallabag.it
     - name: wallabag software homepage
-      displayName: Homepage
+      displayName: Website
       description: Presentation of wallabag project
       link: https://wallabag.org
       category: wallabag.org
