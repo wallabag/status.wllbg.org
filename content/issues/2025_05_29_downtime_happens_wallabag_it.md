@@ -1,9 +1,11 @@
 ---
 title: "Incident on the wallabag.it service"
 date: 2025-05-29 20:00:00
-pin: true
+pin: false
 informational: true
 severity: notice
+resolved: true
+resolvedWhen: 2025-06-02 10:00:30
 affected:
   - wallabag.it service
 section: issue
