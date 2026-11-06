@@ -9,6 +9,7 @@ affected:
   - wallabag.it service
 section: issue
 githubIssue: 11
+mastodonId: "117570582001668411"
 ---
 
 Due to maintenance operations on the database, the use of app.wallabag.it may be slowed down.
