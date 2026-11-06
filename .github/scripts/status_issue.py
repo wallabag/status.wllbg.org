@@ -6,12 +6,14 @@ Reads the event from GITHUB_EVENT_NAME / GITHUB_EVENT_PATH and writes
 `changed`, `file`, `commit` and `reply` to GITHUB_OUTPUT.
 
 When MASTODON_TOKEN is set, a new incident is posted on Mastodon and its
-resolution is posted as a reply to that first post.
+resolution is posted as a reply to that first post. The first post is sent by
+a second run (`--mastodon`), once the incident page is online.
 """
 import json
 import os
 import re
 import sys
+import time
 import unicodedata
 import urllib.request
 from datetime import datetime, timezone
@@ -119,7 +121,41 @@ def toot(header, message, url, key, reply_to=None):
         method="POST",
     )
     with urllib.request.urlopen(request, timeout=20) as response:
-        return str(json.load(response)["id"])
+        status = json.load(response)
+        return str(status["id"]), status.get("url", "")
+
+
+def wait_online(url, timeout):
+    """Wait until Netlify serves the new page."""
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        try:
+            with urllib.request.urlopen(url, timeout=10) as response:
+                if response.status == 200:
+                    return True
+        except Exception:
+            pass
+        time.sleep(15)
+    return False
+
+
+def post_new_incident():
+    """Second run, after the push: post the new incident on Mastodon."""
+    data = json.loads(os.environ["TOOT"])
+    path = Path(data["file"])
+    out = {"changed": "false", "file": "", "commit": "", "reply": ""}
+    online = wait_online(data["url"], int(os.environ.get("MASTODON_WAIT", "600")))
+    try:
+        status_id, status_url = toot(data["header"], data["message"], data["url"], data["key"])
+    except Exception as error:
+        out["reply"] = f"Mastodon post failed: {error}"
+        return out
+    path.write_text(set_field(path.read_text(), "mastodonId", f'"{status_id}"'))
+    out.update(changed="true", file=str(path), commit=f"Status: link Mastodon post (#{data['number']})")
+    out["reply"] = f"Posted on Mastodon: {status_url}"
+    if not online:
+        out["reply"] += " (the page was not online yet)"
+    return out
 
 
 def create(issue):
@@ -180,21 +216,23 @@ def create(issue):
         "",
     ]
 
-    if not no_mastodon:
+    pending = None
+    if not no_mastodon and os.environ.get("MASTODON_TOKEN"):
         if maintenance:
             header = f"🛠️ Scheduled maintenance: {title}\nStarts {start[:16]} UTC"
         else:
             header = f"{EMOJI[severity]} {title}"
-        try:
-            status_id = toot(header, toot_message, page_url(path), f"{issue['number']}-open")
-            if status_id:
-                lines.insert(lines.index("---", 1), f'mastodonId: "{status_id}"')
-                notes.append("Posted on Mastodon.")
-        except Exception as error:  # the status page must be published anyway
-            notes.append(f"Mastodon post failed: {error}")
+        pending = {
+            "file": str(path),
+            "url": page_url(path),
+            "number": issue["number"],
+            "header": header,
+            "message": toot_message,
+            "key": f"{issue['number']}-open",
+        }
 
     path.write_text("\n".join(lines))
-    return path, f"Status: add {title} (#{issue['number']})", notes
+    return path, f"Status: add {title} (#{issue['number']})", notes, pending
 
 
 def toot_resolved(path, old, new, title, number):
@@ -255,7 +293,7 @@ def main():
     event = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
     issue = event["issue"]
     action = event["action"]
-    out = {"changed": "false", "file": "", "commit": "", "reply": "", "close": "false"}
+    out = {"changed": "false", "file": "", "commit": "", "reply": "", "close": "false", "toot": ""}
 
     try:
         if event_name == "issues" and action == "opened":
@@ -263,7 +301,10 @@ def main():
                 return out
             result = create(issue)
             if result:
-                path, out["commit"], notes = result
+                path, out["commit"], notes, pending = result
+                if pending:
+                    out["toot"] = json.dumps(pending, ensure_ascii=False)
+                    notes.append("It will be posted on Mastodon once the page is online.")
                 out["file"] = str(path)
                 out["reply"] = "\n\n".join([f"Published on {page_url(path)} (live in a minute or two)."] + notes)
         else:
@@ -309,7 +350,7 @@ def main():
 
 
 if __name__ == "__main__":
-    result = main()
+    result = post_new_incident() if "--mastodon" in sys.argv else main()
     with open(os.environ.get("GITHUB_OUTPUT", "/dev/stdout"), "a") as fh:
         for key, value in result.items():
             if "\n" in value:

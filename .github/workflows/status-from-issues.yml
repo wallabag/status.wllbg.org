@@ -55,3 +55,31 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           NUMBER: ${{ github.event.issue.number }}
         run: gh issue close "$NUMBER" --repo "$GITHUB_REPOSITORY"
+
+      # Post the new incident on Mastodon once Netlify has deployed its page
+      - id: mastodon
+        if: steps.status.outputs.toot != ''
+        env:
+          MASTODON_URL: ${{ vars.MASTODON_URL }}
+          MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
+          TOOT: ${{ steps.status.outputs.toot }}
+        run: python3 .github/scripts/status_issue.py --mastodon
+
+      - if: steps.mastodon.outputs.changed == 'true'
+        env:
+          FILE: ${{ steps.mastodon.outputs.file }}
+          MESSAGE: ${{ steps.mastodon.outputs.commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$FILE"
+          git commit -m "$MESSAGE"
+          git pull --rebase origin master
+          git push origin HEAD:master
+
+      - if: steps.mastodon.outputs.reply != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.issue.number }}
+          REPLY: ${{ steps.mastodon.outputs.reply }}
+        run: gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body "$REPLY"
