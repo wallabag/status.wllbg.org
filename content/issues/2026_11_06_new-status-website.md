@@ -13,3 +13,5 @@ mastodonId: "117568988969906491"
 ---
 
 We are working on our new status website. Notifications are also sent to our mastodon account.
+
+*Update* {{< track "2026-11-06 10:23:41" >}} — it seems ok 🎉
