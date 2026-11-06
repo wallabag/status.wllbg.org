@@ -26,6 +26,9 @@ jobs:
           ref: master
 
       - id: status
+        env:
+          MASTODON_URL: ${{ vars.MASTODON_URL }}
+          MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
         run: python3 .github/scripts/status_issue.py
 
       - if: steps.status.outputs.changed == 'true'

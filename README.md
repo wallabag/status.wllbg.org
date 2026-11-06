@@ -1,48 +1,33 @@
-# wallabag status page
+# status.wallabag.it
 
-Source of https://status.wallabag.it (cState + Hugo, deployed by Netlify on every push to `master`).
+Tout se fait depuis une issue GitHub, y compris depuis l'app mobile. La page est en ligne une à deux minutes après chaque action.
 
-## Publish an incident or a maintenance (works from the GitHub mobile app)
+## Signaler un incident ou une maintenance
 
-1. Open a new issue with the **Status page incident / maintenance** template and fill in the form.
-   A GitHub Action creates the file in `content/issues/` and pushes it to `master`.
-2. Comment on the issue to update the status page:
-   - `/update <message>`: add an update
-   - `/severity down|disrupted|notice [message]`: change the severity (e.g. when a scheduled maintenance starts)
-   - `/resolved [message]`: mark it as resolved and close the issue (closing the issue does the same, reopening it reverts it)
+1. Ouvrir une nouvelle issue avec le modèle **Status page incident / maintenance**.
+2. Remplir :
+   - **Titre de l'issue** : le titre affiché sur la page.
+   - **Type** : `Incident` ou `Scheduled maintenance`.
+   - **Severity** : `down` (indisponible), `disrupted` (dégradé) ou `notice` (information).
+   - **Affected systems** : un ou plusieurs systèmes.
+   - **Start (UTC)** : `AAAA-MM-JJ HH:MM`, vide pour maintenant.
+   - **Message** : le texte affiché (Markdown).
+   - **Mastodon** : cocher pour ne pas publier sur Mastodon.
+3. Valider. Un commentaire confirme la publication avec le lien de la page.
 
-Only the repository owners, members and collaborators can publish. The script is in `.github/scripts/status_issue.py`.
+## Mettre à jour
 
-## cState Site v5.6.1b
+Commenter l'issue :
 
-This is the default cState status page website directory/folder.
+- `/update <message>` : ajoute une mise à jour.
+- `/severity down|disrupted|notice [message]` : change la sévérité.
+- `/resolved [message]` : marque comme résolu et ferme l'issue.
 
-* Example site repository link (you are here): https://github.com/cstate/example
-* Main cState source code repository: https://github.com/cstate/cstate
+Fermer l'issue revient à `/resolved`. La rouvrir remet l'incident en cours.
 
-## Are you updating? Use these commands
+## Bon à savoir
 
-Download your site with all the directories. `git clone --recursive <your repo link goes here>`
-
-Update the cState theme submodule. `git submodule foreach git pull origin master`
-
-In the parent directory, type `hugo serve`. Check to see if everything is working.
-
-Then do `git add -A; git commit -m "Update cState"; git push origin <branch, probably main or master>`. Your status page is now updated and uploaded.
-
-
-## For maintainers (probably not for you)
-
-Maintainers need to update both cstate/cstate and cstate/example for each new version.
-
-Download this repo with all the directories. `git clone --recursive -b master https://github.com/cstate/example.git`
-
-Add your changes from cstate/cstate's exampleSite folder.
-
-Update the cState theme submodule. `git submodule foreach git pull origin master`
-
-Then push `git add -A; git commit -m "Update cState vX.X.X"; git push origin master`.
-
-## License
-
-MIT © Mantas Vilčinskas
+- Une maintenance future s'affiche en `notice`. Commenter `/severity down` quand elle commence.
+- L'incident est publié sur Mastodon (@wallabagit@fosstodon.org), et sa résolution en réponse.
+- Seuls les membres et collaborateurs du dépôt peuvent publier.
+- Les heures sont en UTC.

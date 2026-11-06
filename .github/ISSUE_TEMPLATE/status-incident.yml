@@ -11,6 +11,8 @@ body:
         - `/update <message>`: add an update
         - `/severity down|disrupted|notice [message]`: change the severity (e.g. when a scheduled maintenance starts)
         - `/resolved [message]`: mark as resolved and close the issue (closing the issue does the same)
+
+        The incident is also posted on Mastodon (@wallabagit@fosstodon.org), and its resolution as a reply.
   - type: dropdown
     id: kind
     attributes:
@@ -57,3 +59,9 @@ body:
       placeholder: We are investigating an issue with app.wallabag.it.
     validations:
       required: true
+  - type: checkboxes
+    id: mastodon
+    attributes:
+      label: Mastodon
+      options:
+        - label: Do not post this on Mastodon
