@@ -1,4 +1,19 @@
-# cState Site v5.6.1b
+# wallabag status page
+
+Source of https://status.wallabag.it (cState + Hugo, deployed by Netlify on every push to `master`).
+
+## Publish an incident or a maintenance (works from the GitHub mobile app)
+
+1. Open a new issue with the **Status page incident / maintenance** template and fill in the form.
+   A GitHub Action creates the file in `content/issues/` and pushes it to `master`.
+2. Comment on the issue to update the status page:
+   - `/update <message>`: add an update
+   - `/severity down|disrupted|notice [message]`: change the severity (e.g. when a scheduled maintenance starts)
+   - `/resolved [message]`: mark it as resolved and close the issue (closing the issue does the same, reopening it reverts it)
+
+Only the repository owners, members and collaborators can publish. The script is in `.github/scripts/status_issue.py`.
+
+## cState Site v5.6.1b
 
 This is the default cState status page website directory/folder.
 

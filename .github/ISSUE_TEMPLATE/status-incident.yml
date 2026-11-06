@@ -1,0 +1,59 @@
+name: Status page incident / maintenance
+description: Publish an incident or a scheduled maintenance on status.wallabag.it (maintainers only)
+labels: ["status"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The issue title becomes the title on https://status.wallabag.it. The page is published a minute or two after you submit.
+
+        Then, comment on this issue to update the status page:
+        - `/update <message>`: add an update
+        - `/severity down|disrupted|notice [message]`: change the severity (e.g. when a scheduled maintenance starts)
+        - `/resolved [message]`: mark as resolved and close the issue (closing the issue does the same)
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options:
+        - Incident
+        - Scheduled maintenance
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: For a maintenance starting in the future, the page shows "notice" until you comment `/severity down`.
+      options:
+        - down (service unavailable)
+        - disrupted (degraded or slow)
+        - notice (information only)
+    validations:
+      required: true
+  - type: dropdown
+    id: affected
+    attributes:
+      label: Affected systems
+      multiple: true
+      options:
+        - wallabag.it service
+        - wallabag.it payment
+        - wallabag.it invoicing
+        - wallabag.it helpdesk
+    validations:
+      required: true
+  - type: input
+    id: start
+    attributes:
+      label: Start (UTC)
+      description: "Format: YYYY-MM-DD HH:MM. Leave empty to use the current time."
+      placeholder: "2026-11-20 06:30"
+  - type: textarea
+    id: message
+    attributes:
+      label: Message
+      description: Shown on the status page (Markdown).
+      placeholder: We are investigating an issue with app.wallabag.it.
+    validations:
+      required: true

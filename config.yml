@@ -44,7 +44,7 @@
 
 # What is your status page called?
 # Shows up in the browser bar and meta tags
-title: wallabag status
+title: wallabag.it status
 
 # Should posts, which have a publish date
 # from the future, be built? Useful for
@@ -98,7 +98,7 @@ defaultContentLanguage: en
 #
 # Broken example:
 # baseUrl: /
-baseURL: https://status.wallabag.org/
+baseURL: https://status.wallabag.it/
 
 # For features like Last modified, you
 # need to use a Git repository. If you
@@ -144,35 +144,38 @@ params:
   # For help, see the wiki:
   # https://github.com/cstate/cstate/wiki/Customization
   categories:
-    - name: wallabag.org
-      description: wallabag community
-      closed: false
     - name: wallabag.it
-      description: wallabag.it service
-      closed: false
+      untitled: true
 
   # These are your systems. Change them to
   # change the amount of components.
+  #
+  # `name` is used in the `affected` list of
+  # the incident files: do not rename it, change
+  # `displayName` instead.
   #
   # These are case sensitive.
   #
   # For help, see the wiki:
   # https://github.com/cstate/cstate/wiki/Customization
   systems:
-    - name: wallabag.it homepage
-      displayName: Website
-      description: Presentation of wallabag.it service
-      link: https://www.wallabag.it
-      category: wallabag.it
     - name: wallabag.it service
-      displayName: Service (web and API)
+      displayName: app.wallabag.it (web and API)
       link: https://app.wallabag.it
       category: wallabag.it
-    - name: wallabag software homepage
-      displayName: Website
-      description: Presentation of wallabag project
-      link: https://wallabag.org
-      category: wallabag.org
+    - name: wallabag.it payment
+      displayName: Payment provider (Stripe)
+      description: Subscription payments
+      category: wallabag.it
+    - name: wallabag.it invoicing
+      displayName: Invoicing provider (Abby)
+      description: Invoices sent after a payment
+      category: wallabag.it
+    - name: wallabag.it helpdesk
+      displayName: Support site provider
+      description: Helpdesk and support tickets
+      link: https://helpdesk.wallabag.it
+      category: wallabag.it
 
   # What date format to use?
   #
@@ -277,7 +280,7 @@ params:
   #
   # Default: `false`
   # BOOLEAN; `true`, `false`
-  useLogo: true
+  useLogo: false
 
   # Where is the logo located, if one is
   # present at all?
@@ -336,11 +339,11 @@ params:
   # disrupted: "#cc4400"
   # down: "#e60000"
   # notice: "#24478f"
-  brand: "#0a0c0f"
-  ok: "#008000"
-  disrupted: "#cc4400"
-  down: "#e60000"
-  notice: "#24478f"
+  brand: "#f3f4f6"
+  ok: "#15803d"
+  disrupted: "#c2410c"
+  down: "#b91c1c"
+  notice: "#1d4ed8"
 
   # If the status page shows that
   # there are disruptions or outages
@@ -365,7 +368,7 @@ params:
   #
   # Default: `white`
   # STRING; `white`, `black`, or nothing
-  headerTextColor: white
+  headerTextColor: black
 
   # Google Analytics tracking code
   #
@@ -381,6 +384,12 @@ params:
   #
   # Default: UA-00000000-1
   googleAnalytics: UA-00000000-1
+
+  # Custom HTML and CSS in layouts/partials/custom/
+  enableCustomHTML: true
+
+  # Link shown on the homepage to report a problem
+  helpdeskURL: https://helpdesk.wallabag.it
 
 # These options affect the core of cState.
 # Please do not change them if you do not
