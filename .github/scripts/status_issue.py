@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn a GitHub issue (opened with the status issue form) and its comments
+"""Turn a GitHub issue (opened with the status issue template) and its comments
 into a cState incident file in content/issues/.
 
 Reads the event from GITHUB_EVENT_NAME / GITHUB_EVENT_PATH and writes
@@ -46,7 +46,8 @@ def utc(value):
 
 def parse_form(body):
     fields = {}
-    for block in re.split(r"^### ", body or "", flags=re.M)[1:]:
+    body = re.sub(r"<!--.*?-->", "", (body or "").replace("\r\n", "\n"), flags=re.S)
+    for block in re.split(r"^### ", body, flags=re.M)[1:]:
         label, _, value = block.partition("\n")
         value = value.strip()
         fields[label.strip()] = "" if value == "_No response_" else value
@@ -296,7 +297,8 @@ def main():
     out = {"changed": "false", "file": "", "commit": "", "reply": "", "close": "false", "toot": ""}
 
     try:
-        if event_name == "issues" and action == "opened":
+        # an issue edited before being published (e.g. message forgotten) is published too
+        if event_name == "issues" and (action == "opened" or (action == "edited" and not find_file(issue["number"]))):
             if issue["author_association"] not in ALLOWED:
                 return out
             result = create(issue)
