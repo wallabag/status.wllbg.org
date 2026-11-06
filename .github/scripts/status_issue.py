@@ -17,7 +17,12 @@ ISSUES_DIR = Path("content/issues")
 SITE_URL = "https://status.wallabag.org"
 ALLOWED = {"OWNER", "MEMBER", "COLLABORATOR"}
 SEVERITIES = ("down", "disrupted", "notice")
-SYSTEMS = ("wallabag.it service", "wallabag.it homepage", "wallabag software homepage")
+SYSTEMS = (
+    "wallabag.it service",
+    "wallabag.it payment",
+    "wallabag.it invoicing",
+    "wallabag.it helpdesk",
+)
 DATE_FMT = "%Y-%m-%d %H:%M:%S"
 
 

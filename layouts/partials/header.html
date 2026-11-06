@@ -1,0 +1,12 @@
+{{ partial "custom/above-header" . }}
+
+<div class="header">
+  <div class="contain contain--more">
+    <a href="{{ .Site.BaseURL }}" class="header__logo">
+      <img src="{{ "img/wallabag-icon.png" | relURL }}" alt="" width="36" height="36">
+      <span>{{ .Site.Title }}</span>
+    </a>
+  </div>
+</div>
+
+{{ partial "custom/below-header" . }}
