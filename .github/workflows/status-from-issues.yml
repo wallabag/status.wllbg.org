@@ -1,0 +1,54 @@
+name: Status page from issues
+
+on:
+  issues:
+    types: [opened, closed, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: status-page
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      !github.event.issue.pull_request &&
+      (github.event_name == 'issues' || startsWith(github.event.comment.body, '/'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - id: status
+        run: python3 .github/scripts/status_issue.py
+
+      - if: steps.status.outputs.changed == 'true'
+        env:
+          FILE: ${{ steps.status.outputs.file }}
+          MESSAGE: ${{ steps.status.outputs.commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$FILE"
+          git commit -m "$MESSAGE"
+          git pull --rebase origin master
+          git push origin HEAD:master
+
+      - if: steps.status.outputs.reply != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.issue.number }}
+          REPLY: ${{ steps.status.outputs.reply }}
+        run: gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body "$REPLY"
+
+      - if: steps.status.outputs.close == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: gh issue close "$NUMBER" --repo "$GITHUB_REPOSITORY"
