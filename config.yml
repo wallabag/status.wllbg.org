@@ -98,7 +98,7 @@ defaultContentLanguage: en
 #
 # Broken example:
 # baseUrl: /
-baseURL: https://status.wallabag.org/
+baseURL: https://status.wallabag.it/
 
 # For features like Last modified, you
 # need to use a Git repository. If you

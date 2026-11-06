@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ISSUES_DIR = Path("content/issues")
-SITE_URL = "https://status.wallabag.org"
+SITE_URL = "https://status.wallabag.it"
 ALLOWED = {"OWNER", "MEMBER", "COLLABORATOR"}
 SEVERITIES = ("down", "disrupted", "notice")
 SYSTEMS = (

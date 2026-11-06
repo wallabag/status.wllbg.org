@@ -1,11 +1,11 @@
 name: Status page incident / maintenance
-description: Publish an incident or a scheduled maintenance on status.wallabag.org (maintainers only)
+description: Publish an incident or a scheduled maintenance on status.wallabag.it (maintainers only)
 labels: ["status"]
 body:
   - type: markdown
     attributes:
       value: |
-        The issue title becomes the title on https://status.wallabag.org. The page is published a minute or two after you submit.
+        The issue title becomes the title on https://status.wallabag.it. The page is published a minute or two after you submit.
 
         Then, comment on this issue to update the status page:
         - `/update <message>`: add an update

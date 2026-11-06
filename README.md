@@ -1,6 +1,6 @@
 # wallabag status page
 
-Source of https://status.wallabag.org (cState + Hugo, deployed by Netlify on every push to `master`).
+Source of https://status.wallabag.it (cState + Hugo, deployed by Netlify on every push to `master`).
 
 ## Publish an incident or a maintenance (works from the GitHub mobile app)
 
