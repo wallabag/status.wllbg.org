@@ -5,15 +5,15 @@ Tout se fait depuis une issue GitHub, y compris depuis l'app mobile. La page est
 ## Signaler un incident ou une maintenance
 
 1. Ouvrir une nouvelle issue avec le modèle **Status page incident / maintenance**.
-2. Remplir :
+2. Compléter le texte pré-rempli (valeurs par défaut : incident `down` sur app.wallabag.it, maintenant) :
    - **Titre de l'issue** : le titre affiché sur la page.
    - **Type** : `Incident` ou `Scheduled maintenance`.
    - **Severity** : `down` (indisponible), `disrupted` (dégradé) ou `notice` (information).
-   - **Affected systems** : un ou plusieurs systèmes.
+   - **Affected systems** : un ou plusieurs systèmes, séparés par des virgules.
    - **Start (UTC)** : `AAAA-MM-JJ HH:MM`, vide pour maintenant.
-   - **Message** : le texte affiché (Markdown).
-   - **Mastodon** : cocher pour ne pas publier sur Mastodon.
-3. Valider. Un commentaire confirme la publication avec le lien de la page.
+   - **Message** : le texte affiché (Markdown). Obligatoire.
+   - **Mastodon** : remplacer `[ ]` par `[x]` pour ne pas publier sur Mastodon.
+3. Valider. Un commentaire confirme la publication avec le lien de la page. En cas d'erreur, corriger l'issue : elle est publiée dès qu'elle est valide.
 
 ## Mettre à jour
 

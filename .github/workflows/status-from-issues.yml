@@ -2,7 +2,7 @@ name: Status page from issues
 
 on:
   issues:
-    types: [opened, closed, reopened]
+    types: [opened, edited, closed, reopened]
   issue_comment:
     types: [created]
 
