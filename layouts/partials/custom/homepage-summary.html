@@ -3,5 +3,8 @@
   <strong>Having trouble with wallabag.it?</strong>
   If something does not work as expected and is not listed on this page,
   <a href="{{ . }}">open a ticket on our helpdesk</a>, we will get back to you.
+  {{ with $.Site.Params.mastodonURL }}
+  <p class="helpdesk__follow">Incidents are also posted on Mastodon: follow <a href="{{ . }}" rel="me">{{ $.Site.Params.mastodonHandle }}</a>.</p>
+  {{ end }}
 </div>
 {{ end }}

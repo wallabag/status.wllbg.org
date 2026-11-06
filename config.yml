@@ -391,6 +391,10 @@ params:
   # Link shown on the homepage to report a problem
   helpdeskURL: https://helpdesk.wallabag.it
 
+  # Mastodon account where incidents are posted
+  mastodonURL: https://fosstodon.org/@wallabagit
+  mastodonHandle: "@wallabagit@fosstodon.org"
+
 # These options affect the core of cState.
 # Please do not change them if you do not
 # know what you are doing.
